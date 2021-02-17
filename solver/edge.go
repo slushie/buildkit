@@ -874,6 +874,9 @@ func (e *edge) loadCache(ctx context.Context) (interface{}, error) {
 	}
 
 	rec := getBestResult(recs)
+	if rec.ID[len(rec.ID)-1] == ':' {
+		return nil, errors.New("cache miss")
+	}
 	e.cacheRecordsLoaded[rec.ID] = struct{}{}
 
 	logrus.Debugf("load cache for %s with %s", e.edge.Vertex.Name(), rec.ID)
